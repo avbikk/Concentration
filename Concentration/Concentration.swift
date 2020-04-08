@@ -10,36 +10,48 @@ import Foundation
 
 class Concentration {
 
-	var cards = [Card]()
+	private(set) var cards = [Card]()
 
-	var indexOfOneAndOnlyFaceUpCard: Int?
+	private var indexOfOneAndOnlyFaceUpCard: Int? {
+		get {
+			return cards.indices.filter { cards[$0].isFaceUp }.oneAndOnly
+		}
+
+		set {
+			for index in cards.indices {
+				cards[index].isFaceUp = (index == newValue)
+			}
+		}
+	}
 
 	func chooseCard(at index: Int) {
-
+		assert(cards.indices.contains(index), "Concentration.chooseCard(at index: \(index) not in the cards")
 		if !cards[index].isMatched {
 			if let matchedIndex = indexOfOneAndOnlyFaceUpCard, matchedIndex != index {
-				if cards[matchedIndex].identifier == cards[index].identifier {
+				if cards[matchedIndex] == cards[index] {
 					cards[matchedIndex].isMatched = true
 					cards[index].isMatched = true
 				}
 				cards[index].isFaceUp = true
-				indexOfOneAndOnlyFaceUpCard = nil
-				// check if cards match
 			} else {
-				for flipDownIndex in cards.indices {
-					cards[flipDownIndex].isFaceUp = false
-				}
-				cards[index].isFaceUp = true
 				indexOfOneAndOnlyFaceUpCard = index
 			}
 		}
 	}
 
 	init(numberOfPairsOfCards: Int) {
+		assert(numberOfPairsOfCards>0, "Concentration.init(numberOfPairsOfCards: \(String(describing: index)) shouldn't be less than 0")
+
 		for _ in 0..<numberOfPairsOfCards {
 			let card = Card()
 			cards += [card, card]
 		}
 		cards.shuffle()
+	}
+}
+
+extension Collection {
+	var oneAndOnly: Element? {
+		return count == 1 ? first : nil
 	}
 }

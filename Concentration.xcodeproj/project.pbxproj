@@ -73,10 +73,10 @@
 			children = (
 				2C14FD9424361B820041376A /* Supporting Files */,
 				2CE21E7224361966000D28AC /* ViewController.swift */,
-				2CE21E7424361966000D28AC /* Main.storyboard */,
-				2CE21E7C24361967000D28AC /* Info.plist */,
 				2C14FD9524361E010041376A /* Concentration.swift */,
 				2C14FD9724361E1A0041376A /* Card.swift */,
+				2CE21E7424361966000D28AC /* Main.storyboard */,
+				2CE21E7C24361967000D28AC /* Info.plist */,
 			);
 			path = Concentration;
 			sourceTree = "<group>";
