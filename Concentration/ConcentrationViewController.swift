@@ -8,7 +8,7 @@
 
 import UIKit
 
-final class ViewController: UIViewController {
+final class ConcentrationViewController: UIViewController {
 
 	private lazy var game = Concentration(numberOfPairsOfCards: numberOfPairsOfCards)
 
@@ -24,7 +24,7 @@ final class ViewController: UIViewController {
 	private func updateFlipCountLabel() {
 		let attributes: [ NSAttributedString.Key: Any] = [
 			.strokeWidth : 5.0,
-			.strokeColor : UIColor.orange
+			.strokeColor : UIColor.blue
 		]
 
 		let attributedString = NSAttributedString(string: "Flips: " + String(flipCount), attributes: attributes)
@@ -51,16 +51,26 @@ final class ViewController: UIViewController {
 	}
 
 	private func updateViewFromModel() {
-		for index in cardButtons.indices {
-			let button = cardButtons[index]
-			let card = game.cards[index]
-			if card.isFaceUp {
-				button.setTitle(emoji(for: card), for: .normal)
-				button.backgroundColor = .white
-			} else {
-				button.setTitle("", for: .normal)
-				button.backgroundColor = card.isMatched ? .clear : .orange
+		if cardButtons != nil {
+			for index in cardButtons.indices {
+				let button = cardButtons[index]
+				let card = game.cards[index]
+				if card.isFaceUp {
+					button.setTitle(emoji(for: card), for: .normal)
+					button.backgroundColor = .white
+				} else {
+					button.setTitle("", for: .normal)
+					button.backgroundColor = card.isMatched ? .clear : .blue
+				}
 			}
+		}
+	}
+
+	var theme: String? {
+		didSet {
+			emojiChoices = theme ?? ""
+			emoji = [:]
+			updateViewFromModel()
 		}
 	}
 
